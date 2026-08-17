@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: quantum-digest
-          path: quantum_digest_*.md
+          path: quantum_digest_*.html
 
       - name: Commit digest into repo (optional history log)
         run: |
