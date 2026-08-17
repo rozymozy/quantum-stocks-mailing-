@@ -1,0 +1,95 @@
+# Quantum Computing Weekly Digest — 2026-08-17
+
+## Company & Lab Announcements
+_No new items this week._
+
+## Scientific Publications
+- **[arXiv quant-ph]** [A Quantum Optimization Framework for Data-Assimilation-Augmented Parameter Estimation](https://arxiv.org/abs/2608.13614)
+  arXiv:2608.13614v1 Announce Type: new Abstract: Parameter estimation is a fundamental challenge in the calibration of ordinary differential equation (ODE) models, where repeated numerical integration can lead to high computational cost. In this work, we investigate whether quantu
+- **[arXiv quant-ph]** [A scalable edge-pass Purcell filter for high-fidelity readout of superconducting qubits](https://arxiv.org/abs/2608.13627)
+  arXiv:2608.13627v1 Announce Type: new Abstract: High-fidelity readout with strong Purcell protection of qubit coherence is essential for scalable superconducting quantum processors, yet the finite passband and sizable footprint of conventional band-pass Purcell filters make them 
+- **[arXiv quant-ph]** [Heuristic Lookahead Distillation Protocol Search](https://arxiv.org/abs/2608.13644)
+  arXiv:2608.13644v1 Announce Type: new Abstract: Bipartite qubit entanglement distillation is the process of converting noisy ebits into pure ebits using only local operations and classical communication. This is a core operation for quantum repeaters, enabling such crucial tasks 
+- **[arXiv quant-ph]** [Tracking real-space quantum state breathing through Floquet-projector geometry](https://arxiv.org/abs/2608.13649)
+  arXiv:2608.13649v1 Announce Type: new Abstract: Periodic driving of spatially periodic quantum systems generates band structures that are absent in static crystals. We present a quantum geometric theory to characterize the Floquet-Bloch states at stroboscopic times and during mic
+- **[arXiv quant-ph]** [Entanglement Negativity in Noisy Quantum Volume Sampling](https://arxiv.org/abs/2608.13654)
+  arXiv:2608.13654v1 Announce Type: new Abstract: The Quantum Volume protocol uses scrambling random circuits to benchmark NISQ computers. Quantum Volume is generally well-regarded as a benchmark for small, noisy, quantum computers because it requires the quantum computer to implem
+- **[arXiv quant-ph]** [Open system probes of renormalization group flow](https://arxiv.org/abs/2608.13664)
+  arXiv:2608.13664v1 Announce Type: new Abstract: Open system probes can provide an efficient means to characterize quantum many-body systems by employing them as engineered environments. The key idea is to map long-range spatial correlations of the environment onto dynamical corre
+- **[arXiv quant-ph]** [Efficient Hamiltonian Truncation: Fast Matrix Construction and Quantum Krylov Diagonalization](https://arxiv.org/abs/2608.13691)
+  arXiv:2608.13691v1 Announce Type: new Abstract: Hamiltonian truncation offers a nonperturbative route to quantum field theory, yet its accuracy is limited by the rapid expansion of the truncated Hilbert space, which drives up computational cost. We tackle this bottleneck with a h
+- **[arXiv quant-ph]** [Scalable Test of Genuine Multipartite Entanglement via Partially Randomized Measurements](https://arxiv.org/abs/2608.13725)
+  arXiv:2608.13725v1 Announce Type: new Abstract: Certifying genuine multipartite entanglement in quantum systems can require a number of measurements that grows exponentially with the system size. Here we introduce a criterion based on correlation-tensor subsector lengths restrict
+- **[Nature Quantum Info]** [Noise protected logical qubit in an open chain of superconducting qubits with ultrastrong interactions](https://www.nature.com/articles/s41534-026-01339-3)
+  npj Quantum Information, Published online: 15 August 2026; doi:10.1038/s41534-026-01339-3Noise protected logical qubit in an open chain of superconducting qubits with ultrastrong interactions
+- **[Nature Quantum Info]** [Fast, unconditional reset and leakage reduction in fixed-frequency transmon qubits](https://www.nature.com/articles/s41534-026-01356-2)
+  npj Quantum Information, Published online: 15 August 2026; doi:10.1038/s41534-026-01356-2Fast, unconditional reset and leakage reduction in fixed-frequency transmon qubits
+- **[Nature Quantum Info]** [Assessing quantum advantage for Gaussian process regression](https://www.nature.com/articles/s41534-026-01350-8)
+  npj Quantum Information, Published online: 14 August 2026; doi:10.1038/s41534-026-01350-8Assessing quantum advantage for Gaussian process regression
+- **[Nature Quantum Info]** [Generation of coherent quantum light from a single impurity-bound exciton](https://www.nature.com/articles/s41534-026-01357-1)
+  npj Quantum Information, Published online: 13 August 2026; doi:10.1038/s41534-026-01357-1Generation of coherent quantum light from a single impurity-bound exciton
+- **[Nature Quantum Info]** [Photon subtraction using a three-level emitter coupled to a chiral waveguide](https://www.nature.com/articles/s41534-026-01338-4)
+  npj Quantum Information, Published online: 12 August 2026; doi:10.1038/s41534-026-01338-4Photon subtraction using a three-level emitter coupled to a chiral waveguide
+- **[Nature Quantum Info]** [High probability multiplexed multi-port single-photon source based on combinatorial heralding](https://www.nature.com/articles/s41534-026-01352-6)
+  npj Quantum Information, Published online: 11 August 2026; doi:10.1038/s41534-026-01352-6High probability multiplexed multi-port single-photon source based on combinatorial heralding
+- **[Nature Quantum Info]** [Breaking the entanglement-fidelity tradeoff in $${\mathscr{ \mathcal P \mathcal T }}$$PT-symmetric quantum systems](https://www.nature.com/articles/s41534-026-01348-2)
+  npj Quantum Information, Published online: 11 August 2026; doi:10.1038/s41534-026-01348-2Breaking the entanglement-fidelity tradeoff in $${\mathscr{ \mathcal P \mathcal T }}$$PT-symmetric quantum systems
+- **[Nature Quantum Info]** [Proof-of-principle experimental demonstration of side-channel-secure quantum key distribution over 200 km](https://www.nature.com/articles/s41534-026-01346-4)
+  npj Quantum Information, Published online: 11 August 2026; doi:10.1038/s41534-026-01346-4Proof-of-principle experimental demonstration of side-channel-secure quantum key distribution over 200 km
+
+## General News
+- **[quantum computing]** [Allstate CEO’s Message on Quantum Computing: ‘Get on the Train’ - WSJ](https://news.google.com/rss/articles/CBMiogFBVV95cUxPbDBvVVZKU3dMeWZVbVg2SVg0YlBKbG9xRnVDdUw5ZlFPaWZrcEZPQkpGbDlSUGgtZmhpcTBSMXhxOWZ2QmQ5S3BPM2dBcDhPT2g5RmZ6Ym1fTDlBR1dPVmk0X3d6eWdEX3R0cGlJMHBsWmg3SmtuQ1M0U2gwSHdGX3NmSXpXU2lERDdtYmtvcU5fbUYxQnRzenJIM2pPQ1Zlcnc?oc=5)
+  Allstate CEO’s Message on Quantum Computing: ‘Get on the Train’ WSJ
+- **[quantum computing]** [Quantum Computing Inc. Reports Second Quarter 2026 Financial Results - PR Newswire](https://news.google.com/rss/articles/CBMiwAFBVV95cUxPcnZ1WkRwSDFKRTk2NEl5SFNIN1ItU0RET0Y2Q2pKR3VtMXR4N3hoRjhkTTBNOUthcHdQWVNKeUl1YndoNHNoaWZ1d1NmeVVMSjE1MDlzUGJmZVkwd1pVX18wZ24tbks4ZFR1OUZZeHRTWFFUeEtqbUNEU0pral9hVnlGa2kxc1J2bndMTVJTd3NndHFGbHozZnlhWlNuODA4NWhMdURBZDBVb2pDamduN0U4RXBtVHhYOEVpVjZyNzc?oc=5)
+  Quantum Computing Inc. Reports Second Quarter 2026 Financial Results PR Newswire
+- **[quantum computing]** [Quantum computing may be facing a replication crisis - New Scientist](https://news.google.com/rss/articles/CBMinwFBVV95cUxOZ3RtdTZyZXo2QlFFZWNWRHpwNFktTFFJNHdMdk9kZExOWmxWU1ZwX1VUby1PQ1lVNGhKcVBiMGEwaHZQUXJLX0FOaHRablhNT2daTUhQYmVEcUpTTENXbnR0R1kxZjZ0SVJlc3lRSWNXSS03TXl5cEVkRWQtanlEcDRmTlZfaUUtVTFzUW43QWtCQ3BvZmhlMnQ3alVhWTQ?oc=5)
+  Quantum computing may be facing a replication crisis New Scientist
+- **[quantum computing]** [Quantinuum and Oracle Partner to Accelerate Hybrid Quantum Compute Adoption on Oracle Cloud Infrastructure - Oracle](https://news.google.com/rss/articles/CBMi8AFBVV95cUxQSTdwQm54RHBrSjFTdk5ON1NHZ3d3Z2o3UUU0ZDQ1Z3VEQ3I0MFdmRkJiTnYteEV6N3NkVEVIMGZyTzdMSUQ5T1ZXZE9aYS1SZ3k2Smt2RFowV01wTVVxemliNWxjLWZ2MUxvQ3M0Q0FTeUJ5V041RkxTRHNGTVFCbW10X2dlM0tqRmp4Z1FDc1Q2aDVHRXZxUzdtblAwcFVYRzF5Z1VTNkFWTlhBNEl3NVRBQXp4VVVlQm5BQkswekhGVG9YNUJNYXkzREc2dmhtVWowajA1N0IzWTBSODU2TnF3YzY5OEppWXJ5M3hiZ3I?oc=5)
+  Quantinuum and Oracle Partner to Accelerate Hybrid Quantum Compute Adoption on Oracle Cloud Infrastructure Oracle
+- **[quantum computing]** [Quantum computing is coming fast. Are utilities ready? - Utility Dive](https://news.google.com/rss/articles/CBMikgFBVV95cUxOY1YwTHhydGt6YlBNTXM0NVJQOW8xU3VxY0I1VGpPNGwxUnJJR3lOWGRZUmt5dG1XRWlnNmVac3J1OVpNWTBpZE5iZ1lRNGlabVp1elI4bWlQeWdBZXI2LThpQUpHeE16N3doNy1GanYwRkN5aTNTOGpsTXFNR2hLUkxXVVdFZlQ1TWlJdzlBTFp4UQ?oc=5)
+  Quantum computing is coming fast. Are utilities ready? Utility Dive
+- **[quantum computing]** [Quantum computing researcher Jiaqi Leng joins Virginia Tech Institute for Advanced Computing - Virginia Tech News](https://news.google.com/rss/articles/CBMirgFBVV95cUxOTy0wNTNrQkpDSjFMSG5QeVN5ZlRWWXZla2lKQUhHQjdfYlhaVE9YZUNRbjc5RFpidEFYcmxOREdGS0YxVHk2c29KOVFWcV8yQTRRNmgwRW14Zi1TZ0w0OV9FWWNvRkdwWjdJV0dGUDFqODRoNDFxb0pNaGdQR1F1WGlQRjlYRVVvczR0LWtSTXFsd09UUDdoZmMxa0tGOFpKN0doeHdYZHh4bUJKR0E?oc=5)
+  Quantum computing researcher Jiaqi Leng joins Virginia Tech Institute for Advanced Computing Virginia Tech News
+- **[quantum computer stocks]** [8 Best Quantum Computing Stocks to Buy in 2026 - U.S. News - Money](https://news.google.com/rss/articles/CBMihwFBVV95cUxNX1hyeGtlakpTeHowbE14UGYtTHVyWHZjVXNWTWVjOTFsS093NURWM1JKeUw3SE1aS2I2aVhoMGZJMG1sNDZWLUgwNFRGR2RhZEFfMi1wRUx0TUJqeEJnSWxhai0tNzRBbXZwejh4clhlb3J2MGR0V2xnZnRaS3JTNUg3UjBCVUU?oc=5)
+  8 Best Quantum Computing Stocks to Buy in 2026 U.S. News - Money
+- **[quantum computer stocks]** [Best Quantum Computing Stocks to Buy for August 2026 - Zacks Investment Research](https://news.google.com/rss/articles/CBMifkFVX3lxTE1NQ2ZMdnFNR0VBZ0JybzJGV2x4R09zdDViR3k2YkRWVDNSQlJyOXNhRmhXV2RlVnVjc2ltVFRLc0pLR2hmM1huUEZUVzNiWXdlcFpLQl94MDBpUmtuOWNBUC1sMDh1Z1hUYXY0U3pRYk5vX3h3aS1Gai1tZU9RQQ?oc=5)
+  Best Quantum Computing Stocks to Buy for August 2026 Zacks Investment Research
+- **[quantum computer stocks]** [Pure-Play Quantum Computing Stocks and ETFs: Is It Still Too Early to Invest? - NerdWallet](https://news.google.com/rss/articles/CBMidkFVX3lxTE4yRC1SSUsyS1YtYllvUTFJU0FJSVViRFNYLTNocjNJRWZhNG0tbk81ZmVGZjRjTTlrajNEWEFnVnN1eUVzNXFmWDJIQlNOVHEwOE14Sm10azBSZ1RpN01qRF9iMFVSbVNldFJTZ2VUOTJodlR2MXc?oc=5)
+  Pure-Play Quantum Computing Stocks and ETFs: Is It Still Too Early to Invest? NerdWallet
+- **[quantum computer stocks]** [Quantinuum Rises Amid First Post-IPO Earnings Report, Oracle System Sale - Investor's Business Daily](https://news.google.com/rss/articles/CBMilAFBVV95cUxPVGt5d3FZS0psTFhuQWFZay01bk5vQU5KajJUMFpHUllnVkgySktiU1VIcFpWZjg5UlM4bVYxOGhFbXAydzZ5aU4yY2FhVHpjd2ZOb2hqSEdRSE1EdTdLYUgtWUlrbUpJVWRkaWJvREZQanpjaURMdWxjcmxkUy1IX1BaSm9yOTlCYTV6OUJtY3RJbDFy?oc=5)
+  Quantinuum Rises Amid First Post-IPO Earnings Report, Oracle System Sale Investor's Business Daily
+- **[quantum computer stocks]** [Better Quantum Computing Stock: IBM or D-Wave? - The Motley Fool](https://news.google.com/rss/articles/CBMikAFBVV95cUxOWWlpSVpuUngxb1QwWWc4S2F3RF94UC1RUHZyNkZGNjZ0TWVwc2F4cjlvQjUwUEVhNElSTDFPM1hYWXFUWVFMLWxmMDYyY09GcW0zZDlfUEtrRDRPaGNSVDBkME5wRGRjN1FfcW5zcmxBQzlmWW1MMUFSLWVCTHhYOU9EOXNTd0cyMGMwTDY0STE?oc=5)
+  Better Quantum Computing Stock: IBM or D-Wave? The Motley Fool
+- **[quantum computer stocks]** [IonQ Stock Leads 3 Quantum Computing Stocks Backed By Government Demand - simplywall.st](https://news.google.com/rss/articles/CBMixgFBVV95cUxNSnJQOFhvQjBER2F6M0MtaVM2NEdoTnFaXzZlQVNnYnp0ZzJUUnNPdzVVbFluLWtVYjJFbGUyUVRDMFZIOG1tMkU0NWFOWjEzUzVsQXRMbl8ySjJUOVktWDB3V3o0VzFHV25qTXRQMFNqM0FKb3lNZkdBelpFcjhoNUtvZnZ5MUN6Umx0VDRxUng2SEx0SG5hUkZvYjBFcVJ4YVJBcnp6czcyZVYtdXV1YnFCOUxLVXZDdGVfOW9BbkRGZHM1NGfSAcsBQVVfeXFMTldEQmFYZTlucDg1N0E0MExqVnp2T0FsOFlsbFdRczNBNXdNcXhPRFREVTJsU1NYR3RXbGRRS0hhdkZMRU1zaFpkT091bWdZckN3X056R3FhZlBkb29tR25pSExEZVA3bG5DNmlyX1RUN205NXg3a21falZ2TTBZT1FwSVZtRHRzWVhRQjdrQ3lGQ2pBb1dROUczQTJ4cElNenZXODFGTkZMLThpc0JaVGRhYm9MZGhuUGtKZVNPM2lIWTk0b3JDSVZiMXc?oc=5)
+  IonQ Stock Leads 3 Quantum Computing Stocks Backed By Government Demand simplywall.st
+- **[quantum error correction]** [Alice & Bob Joins €4.6M MSCA-Backed QuBriC Doctoral Network for Quantum Error Correction - Quantum Computing Report](https://news.google.com/rss/articles/CBMivwFBVV95cUxPWjR0YU1zQVJzcXJnVGV2WVVScXN5UTA0RzJsODNZcGwtSGRpYWlsZzlmaG9GOFRQVEFDTWRoejNtXzd5SUcxUjhsQ1JVN25zblVoamsxbUZ4VkMzN3hKSndXWG95WGwyWEJuVjN4cmUxNEtsVml6LUN2OWJjeF9kRF9YRlpRb2dJWmppMGRZR2tncnhSOFFmV0lhaENrcVkwem9hdklKS2ZvNFBEaVRXamdvOXFwUnVOTVp3dEczWdIBxAFBVV95cUxNYWM3Z1Ftd1M0Nk9SN0xCNmVWRDlPUEhGYXVqa2NPTTJlcGRYdUswaldWanlvZ0E2cU1qOU1nZmRHcnVYSUR4ZmpDSDhlVzJyaE1mcDRDdThaMC1OX3Z3eW50M3FoN2gtbXRMYWhSZ1JPZGFfaWVsRC0tZjVrMTlkS0M2WWREbHBfRm1xOGxqQmw2emRlaEhnc19XWGFkdE5HeE16dURYem92UlUwUUo5X0h3WnhwczZhMFFhdUtnN2ZwX19U?oc=5)
+  Alice & Bob Joins €4.6M MSCA-Backed QuBriC Doctoral Network for Quantum Error Correction Quantum Computing Report
+- **[quantum error correction]** [Alice & Bob Joins Europe’s First Quantum Error Correction Network - quantumzeitgeist.com](https://news.google.com/rss/articles/CBMie0FVX3lxTE4wUXh2NjdXZjFkZWVfQ1N1aWpGVDQwb19nd0FISXFLTG1rdWtiNVM1WmRaeUxlZEJCajRBVnc1RGNJZmdvWkxkRjBTRl9ncHViRkh6b01FTFZsOGs0Y1Rad3RmZUNVc0I4Y2FtZDZNcmwxaXRBdzg3ZWRnOA?oc=5)
+  Alice & Bob Joins Europe’s First Quantum Error Correction Network quantumzeitgeist.com
+- **[quantum error correction]** [UC Riverside Researchers Lead Genesis Mission Work on Quantum Error Correction, AI-Driven Science - HPCwire](https://news.google.com/rss/articles/CBMizwFBVV95cUxNN2RDUHNiY052T3hvU0JmRFV1V0tWcG55YjBhQ1ZxNGNRdXduanI0ZjBScjB3NUt5dDFlVXA0LV96b1FRQUVweExFYVVSdWliTW1QR3NuWjJ5TEd0QkhHSkJPTWNMeFFzeVhEcjBYclJUeS1jQklENlc3RnJnVjhZOTR3RUhYNmNwUjZubEhCbFp6WXNjUnA0bzRldHhUWExWbUNVUnRkVThuSGVJZGtMbHhzZmRiNVpCb19MSnp6b0lrTndtNktITGpjTG5yTk0?oc=5)
+  UC Riverside Researchers Lead Genesis Mission Work on Quantum Error Correction, AI-Driven Science HPCwire
+- **[quantum error correction]** [Alice & Bob Partners on Europe's First Doctoral Network Dedicated to Quantum Error Correction - EIN News](https://news.google.com/rss/articles/CBMizgFBVV95cUxOaUxaeXBzWGhiVldEelNhMUpPWmhCSTJ0cFhHdVlBNko4bmxzeW5YTUVTZUpSRXdnb2ZGX0QxdzBJUTZaX1hVZWNncVZoaFZ6WkMwSHB0aGJHcDFrbmstNkFGd2dneU9XZ2ZDeTVXODMzckZxTU81aDR6WTVOM1ZJbHJTOW5OeWdDRGl0ZVY4cm1JZkhNSml0R0dnQktYMTZ2QXJnMUwxbHFfZ0JCWUZBTUtYc21ROUwtRW82Z0t2R0p3TWo4OERHcE9sRG1SQQ?oc=5)
+  Alice & Bob Partners on Europe's First Doctoral Network Dedicated to Quantum Error Correction EIN News
+- **[quantum error correction]** [MSCA-backed QuBriC brings Alice & Bob into Europe’s quantum error correction push - Tech.eu](https://news.google.com/rss/articles/CBMiqgFBVV95cUxNcWZRd2VXV3NwRklMaXVnZzJOd0EyNkI4eENsZkNjUl9ITVFDS2dERENaZFhFUlNsRXJCUlY3THZrc09VclNNN3hWYkFNcFdZNnQ2b09ObGxqUW9oMUF1Qnc3cy04OUM1ME94MC1MdmppWHJ3SmhRWXY5MW1CYjEtZzllaDliWFlTTll5M016bUY1amhrMFQwdTZtcktnb0NXSHFBbDBqTWxpUQ?oc=5)
+  MSCA-backed QuBriC brings Alice & Bob into Europe’s quantum error correction push Tech.eu
+- **[quantum error correction]** [Alice & Bob to work with European network on quantum error fixes - siliconrepublic.com](https://news.google.com/rss/articles/CBMirgFBVV95cUxOakU0QkE2LTBrZ1ZEeTlqZGlfZmU5WXN6WHRQNGo4UzRIYldNam1LVGtwZWU5emJxekt3WlBiRDFpaTJWa3RSYTgyUGprX01BRzlHd1dlelRrc0toV19xVFZFcHhYMS1OSC1DSy0tWHd5ZGFJREpIWEhOQmVKdlZwWVFyQVE4Q3c3R2ZjWG1qZ1JOYm5YMndOQWtvaVpGemdRQVhmOEJyN0U1NERkOVE?oc=5)
+  Alice & Bob to work with European network on quantum error fixes siliconrepublic.com
+
+## Investment / Stock News
+- **[QUBT (Yahoo Finance)]** [Here's How QUBT Retains Financial Flexibility Amid Strategic Expansion](https://finance.yahoo.com/markets/stocks/articles/heres-qubt-retains-financial-flexibility-153400580.html)
+- **[QUBT (Yahoo Finance)]** [These Are the Stocks Wall Street Is Betting Against the Most](https://finance.yahoo.com/markets/stocks/articles/stocks-wall-street-betting-against-193023310.html)
+- **[QUBT (Yahoo Finance)]** [Quantum Computing Q2 Earnings Call Centers on Commercial Scaling](https://finance.yahoo.com/technology/articles/quantum-computing-q2-earnings-call-152000672.html)
+- **[QUBT (Yahoo Finance)]** [QUBT Q2 Loss Matches, Revenues Beat, Stock Down in After-Market](https://finance.yahoo.com/markets/stocks/articles/qubt-q2-loss-matches-revenues-143300422.html)
+- **[QUBT (Yahoo Finance)]** [Quantum Computing (QUBT) Dropped, What Is Behind The Latest Attention?](https://finance.yahoo.com/markets/stocks/articles/quantum-computing-qubt-dropped-behind-071135620.html)
+- **[IONQ (Yahoo Finance)]** [1 Surging Stock Worth Investigating and 2 Facing Challenges](https://finance.yahoo.com/markets/stocks/articles/1-surging-stock-worth-investigating-125300824.html)
+- **[IONQ (Yahoo Finance)]** [3 Quantum Computing Stocks for Aggressive Investors in August](https://247wallst.com/investing/2026/08/16/3-quantum-computing-stocks-for-aggressive-investors-in-august/)
+- **[IONQ (Yahoo Finance)]** [IonQ Paid $1.8 Billion for a Chip Foundry. Here's What Investors Should Know.](https://www.fool.com/investing/2026/08/16/ionq-paid-18-billion-for-a-chip-foundry-heres-what/)
+- **[IONQ (Yahoo Finance)]** [CrowdStrike vs. IonQ: Which Technology Stock Is a Better Buy in 2026?](https://www.fool.com/coverage/better-buy/2026/08/14/crowdstrike-vs-ionq-which-technology-stock-is-a-better-buy-in-2026/)
+- **[IONQ (Yahoo Finance)]** [IonQ (IONQ) Just Posted Record Results, So Why Is The Stock Still Down?](https://finance.yahoo.com/markets/stocks/articles/ionq-ionq-just-posted-record-092352107.html)
+- **[RGTI (Yahoo Finance)]** [Quantinuum Stock Could Get a Boost From Apple Partner Quanta Computer](https://www.barrons.com/articles/quantinuum-quanta-computer-quantum-computing-apple-941c462d?siteid=yhoof2&yptr=yahoo)
+- **[RGTI (Yahoo Finance)]** [Is Rigetti Computing (RGTI) Fully Valued Following Grant And Quantum Progress News?](https://finance.yahoo.com/markets/stocks/articles/rigetti-computing-rgti-fully-valued-021150591.html)
+- **[RGTI (Yahoo Finance)]** [Rigetti (RGTI) Q2 2026 Earnings Call Transcript](https://www.fool.com/earnings/call-transcripts/2026/08/13/rigetti-rgti-q2-2026-earnings-call-transcript/)
+- **[QBTS (Yahoo Finance)]** [What Could D Wave Quantum (QBTS) Gain From Its Financial Crime Detection Push?](https://finance.yahoo.com/technology/ai/articles/could-d-wave-quantum-qbts-001427314.html)
+- **[QBTS (Yahoo Finance)]** [The Bull Case For D-Wave Quantum (QBTS) Could Change Following New NRC Funding And Nature-Published Gate Breakthrough](https://finance.yahoo.com/markets/stocks/articles/bull-case-d-wave-quantum-130749100.html)
+- **[QBTS (Yahoo Finance)]** [Jim Cramer Was Happy The Market “Cared” About D-Wave Quantum – But Not How You Think](https://finance.yahoo.com/markets/stocks/articles/jim-cramer-happy-market-cared-212804288.html)
+- **[QBTS (Yahoo Finance)]** [Quantum Computing Earnings Offered a Reality Check. What Comes Next.](https://www.barrons.com/articles/quantum-computing-earnings-stocks-b4e8ce2d?siteid=yhoof2&yptr=yahoo)
