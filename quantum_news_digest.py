@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-Weekly Quantum Computing News Digest
-=====================================
-Pulls recent items from company blogs, scientific journals, news
-aggregators, and investment/financial sources, then compiles a
-deduplicated markdown digest.
-
-Run on a schedule (cron / GitHub Actions / Task Scheduler) — see
-notes at the bottom of this file for setup.
+Weekly Quantum Computing Digest — Finance-First Edition
+=========================================================
+Leads with stock snapshots and analyst/investment news for
+QUBT, IONQ, RGTI, QBTS, then company announcements and science
+news underneath. Outputs a styled HTML file with clickable
+source links.
 
 Dependencies: feedparser, yfinance
     pip install feedparser yfinance
@@ -15,8 +13,10 @@ Dependencies: feedparser, yfinance
 
 import feedparser
 import re
+import io
+import base64
 from datetime import datetime, timedelta, timezone
-from html import unescape
+from html import unescape, escape
 
 try:
     import yfinance as yf
@@ -24,13 +24,21 @@ try:
 except ImportError:
     HAVE_YFINANCE = False
 
+try:
+    import matplotlib
+    matplotlib.use("Agg")  # no display needed, just render to bytes
+    import matplotlib.pyplot as plt
+    HAVE_MATPLOTLIB = True
+except ImportError:
+    HAVE_MATPLOTLIB = False
+
 # ---------------------------------------------------------------------------
-# CONFIG — edit these lists to add/remove sources or tickers
+# CONFIG
 # ---------------------------------------------------------------------------
 
 LOOKBACK_DAYS = 7
+TICKERS = ["QUBT", "IONQ", "RGTI", "QBTS"]
 
-# Company / lab blogs and press pages with RSS feeds
 COMPANY_FEEDS = {
     "IonQ":              "https://ionq.com/feed",
     "Rigetti":           "https://www.rigetti.com/feed",
@@ -40,26 +48,18 @@ COMPANY_FEEDS = {
     "Xanadu":            "https://www.xanadu.ai/blog/rss.xml",
 }
 
-# Scientific sources
 SCIENCE_FEEDS = {
     "arXiv quant-ph":        "http://export.arxiv.org/rss/quant-ph",
     "Nature Quantum Info":   "https://www.nature.com/npjqi.rss",
     "Physical Review Quantum": "https://journals.aps.org/prxquantum/rss/recent.xml",
 }
 
-# General news aggregators — Google News RSS supports arbitrary queries
-NEWS_QUERIES = [
-    "quantum computing",
-    "quantum computer stocks",
-    "quantum error correction",
-]
+NEWS_QUERIES = ["quantum computing stock", "quantum computing analyst rating"]
 GOOGLE_NEWS_TEMPLATE = "https://news.google.com/rss/search?q={query}+when:7d&hl=en-US&gl=US&ceid=US:en"
 
-# Investment-side: pull via yfinance's news API (not scraping analyst
-# sites directly — most of those block scraping in their ToS)
-TICKERS = ["QUBT", "IONQ", "RGTI", "QBTS"]
 
-
+# ---------------------------------------------------------------------------
+# FETCH HELPERS
 # ---------------------------------------------------------------------------
 
 def clean_text(s: str) -> str:
@@ -72,12 +72,11 @@ def within_lookback(entry, cutoff) -> bool:
     for field in ("published_parsed", "updated_parsed"):
         t = entry.get(field)
         if t:
-            dt = datetime(*t[:6], tzinfo=timezone.utc)
-            return dt >= cutoff
-    return True  # if no date, include it and let a human judge
+            return datetime(*t[:6], tzinfo=timezone.utc) >= cutoff
+    return True
 
 
-def fetch_feed(name, url, cutoff, limit=8):
+def fetch_feed(name, url, cutoff, limit=6):
     items = []
     try:
         parsed = feedparser.parse(url)
@@ -88,10 +87,10 @@ def fetch_feed(name, url, cutoff, limit=8):
                 "source": name,
                 "title": clean_text(entry.get("title", "")),
                 "link": entry.get("link", ""),
-                "summary": clean_text(entry.get("summary", ""))[:280],
+                "summary": clean_text(entry.get("summary", ""))[:220],
             })
-    except Exception as e:
-        items.append({"source": name, "title": f"[fetch error: {e}]", "link": url, "summary": ""})
+    except Exception:
+        pass  # skip broken feeds silently rather than cluttering the digest
     return items
 
 
@@ -102,90 +101,217 @@ def fetch_ticker_news(ticker, cutoff, limit=5):
     try:
         news = yf.Ticker(ticker).news or []
         for n in news[:limit]:
-            content = n.get("content", n)  # yfinance schema varies by version
+            content = n.get("content", n)
             title = content.get("title") or n.get("title", "")
             link = (content.get("canonicalUrl") or {}).get("url") or n.get("link", "")
-            items.append({
-                "source": f"{ticker} (Yahoo Finance)",
-                "title": clean_text(title),
-                "link": link,
-                "summary": "",
-            })
-    except Exception as e:
-        items.append({"source": f"{ticker} (Yahoo Finance)", "title": f"[fetch error: {e}]", "link": "", "summary": ""})
+            if title and link:
+                items.append({"source": f"{ticker}", "title": clean_text(title), "link": link, "summary": ""})
+    except Exception:
+        pass
     return items
 
 
-def dedupe(items):
-    seen, out = set(), []
-    for it in items:
-        key = it["title"].lower().strip()
-        if key and key not in seen:
-            seen.add(key)
-            out.append(it)
-    return out
+def make_sparkline_b64(closes):
+    """Render a minimal price sparkline and return it as a base64 PNG string."""
+    if not HAVE_MATPLOTLIB or closes is None or len(closes) < 2:
+        return None
+    try:
+        up = closes[-1] >= closes[0]
+        color = "#12813f" if up else "#c4341f"
+        fig, ax = plt.subplots(figsize=(2.6, 0.7), dpi=120)
+        ax.plot(closes, color=color, linewidth=1.8)
+        ax.fill_between(range(len(closes)), closes, min(closes), color=color, alpha=0.08)
+        ax.axis("off")
+        fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", transparent=True)
+        plt.close(fig)
+        buf.seek(0)
+        return base64.b64encode(buf.read()).decode("ascii")
+    except Exception:
+        return None
 
+
+def fetch_ticker_snapshot(ticker):
+    """Price, monthly change, volume, analyst target, and sparkline — best effort."""
+    snap = {"ticker": ticker, "price": None, "change_pct": None, "volume": None,
+            "target": None, "rating": None, "sparkline_b64": None}
+    if not HAVE_YFINANCE:
+        return snap
+    try:
+        t = yf.Ticker(ticker)
+        hist = t.history(period="1mo")  # extra history so the sparkline shows a real trend
+        if not hist.empty:
+            closes = hist["Close"].tolist()
+            last_close = closes[-1]
+            week_ago_close = hist["Close"].iloc[-6] if len(closes) >= 6 else closes[0]
+            snap["price"] = round(float(last_close), 2)
+            snap["change_pct"] = round((last_close - week_ago_close) / week_ago_close * 100, 2)
+            snap["volume"] = int(hist["Volume"].iloc[-1])
+            snap["sparkline_b64"] = make_sparkline_b64(closes)
+        info = t.info if hasattr(t, "info") else {}
+        snap["target"] = info.get("targetMeanPrice")
+        snap["rating"] = info.get("recommendationKey")
+    except Exception:
+        pass
+    return snap
+
+
+# ---------------------------------------------------------------------------
+# BUILD
+# ---------------------------------------------------------------------------
 
 def build_digest():
     cutoff = datetime.now(timezone.utc) - timedelta(days=LOOKBACK_DAYS)
-    sections = {"Company & Lab Announcements": [], "Scientific Publications": [],
-                "General News": [], "Investment / Stock News": []}
 
-    for name, url in COMPANY_FEEDS.items():
-        sections["Company & Lab Announcements"] += fetch_feed(name, url, cutoff)
+    snapshots = [fetch_ticker_snapshot(t) for t in TICKERS]
 
-    for name, url in SCIENCE_FEEDS.items():
-        sections["Scientific Publications"] += fetch_feed(name, url, cutoff)
-
+    investment_news = []
+    for t in TICKERS:
+        investment_news += fetch_ticker_news(t, cutoff)
     for q in NEWS_QUERIES:
         url = GOOGLE_NEWS_TEMPLATE.format(query=q.replace(" ", "+"))
-        sections["General News"] += fetch_feed(q, url, cutoff, limit=6)
+        investment_news += fetch_feed(q, url, cutoff, limit=6)
 
-    for t in TICKERS:
-        sections["Investment / Stock News"] += fetch_ticker_news(t, cutoff)
+    company_news = []
+    for name, url in COMPANY_FEEDS.items():
+        company_news += fetch_feed(name, url, cutoff)
 
-    for k in sections:
-        sections[k] = dedupe(sections[k])
+    science_news = []
+    for name, url in SCIENCE_FEEDS.items():
+        science_news += fetch_feed(name, url, cutoff, limit=4)
 
-    return sections
-
-
-def render_markdown(sections):
-    today = datetime.now().strftime("%Y-%m-%d")
-    lines = [f"# Quantum Computing Weekly Digest — {today}", ""]
-    for section, items in sections.items():
-        lines.append(f"## {section}")
-        if not items:
-            lines.append("_No new items this week._\n")
-            continue
+    def dedupe(items):
+        seen, out = set(), []
         for it in items:
-            lines.append(f"- **[{it['source']}]** [{it['title']}]({it['link']})")
-            if it["summary"]:
-                lines.append(f"  {it['summary']}")
-        lines.append("")
-    return "\n".join(lines)
+            key = it["title"].lower().strip()
+            if key and key not in seen:
+                seen.add(key)
+                out.append(it)
+        return out
+
+    return {
+        "snapshots": snapshots,
+        "investment_news": dedupe(investment_news),
+        "company_news": dedupe(company_news),
+        "science_news": dedupe(science_news),
+    }
+
+
+# ---------------------------------------------------------------------------
+# RENDER — styled HTML
+# ---------------------------------------------------------------------------
+
+def render_snapshot_card(s):
+    ticker = s["ticker"]
+    tradingview_url = f"https://www.tradingview.com/symbols/{ticker}/"
+    investing_url = f"https://www.investing.com/search/?q={ticker}"
+    yahoo_url = f"https://finance.yahoo.com/quote/{ticker}"
+    links_html = f'''
+      <div class="chart-links">
+        <a href="{yahoo_url}" target="_blank" rel="noopener">Yahoo</a>
+        <a href="{tradingview_url}" target="_blank" rel="noopener">TradingView</a>
+        <a href="{investing_url}" target="_blank" rel="noopener">Investing.com</a>
+      </div>'''
+
+    if s["price"] is None:
+        return f'<div class="ticker-card"><div class="ticker-symbol">{ticker}</div><div class="no-data">Price data unavailable</div>{links_html}</div>'
+
+    change = s["change_pct"]
+    change_class = "up" if (change or 0) >= 0 else "down"
+    arrow = "▲" if (change or 0) >= 0 else "▼"
+    target_line = f'<div class="target">Analyst target: ${s["target"]:.2f}</div>' if s["target"] else ""
+    rating_line = f'<div class="rating">Rating: {escape(s["rating"].capitalize())}</div>' if s["rating"] else ""
+    sparkline_html = (f'<img class="sparkline" src="data:image/png;base64,{s["sparkline_b64"]}" alt="{ticker} 1-month trend">'
+                       if s["sparkline_b64"] else "")
+
+    return f'''
+    <div class="ticker-card">
+      <div class="ticker-symbol">{ticker}</div>
+      <div class="price">${s["price"]:.2f}</div>
+      <div class="change {change_class}">{arrow} {abs(change):.2f}% (7d)</div>
+      {sparkline_html}
+      {target_line}
+      {rating_line}
+      {links_html}
+    </div>'''
+
+
+def render_news_item(it):
+    summary_html = f'<div class="item-summary">{escape(it["summary"])}</div>' if it["summary"] else ""
+    return f'''
+    <div class="news-item">
+      <span class="badge">{escape(it["source"])}</span>
+      <a class="item-title" href="{escape(it["link"])}" target="_blank" rel="noopener">{escape(it["title"])}</a>
+      {summary_html}
+    </div>'''
+
+
+def render_html(data):
+    today = datetime.now().strftime("%B %d, %Y")
+
+    ticker_cards = "".join(render_snapshot_card(s) for s in data["snapshots"])
+    investment_items = "".join(render_news_item(it) for it in data["investment_news"]) or '<p class="empty">No new investment news this week.</p>'
+    company_items = "".join(render_news_item(it) for it in data["company_news"]) or '<p class="empty">No new company announcements this week.</p>'
+    science_items = "".join(render_news_item(it) for it in data["science_news"]) or '<p class="empty">No new publications this week.</p>'
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quantum Computing Weekly Digest — {today}</title>
+<style>
+  body {{ font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f5f6f8; margin: 0; padding: 24px; color: #1a1a1a; }}
+  .container {{ max-width: 760px; margin: 0 auto; }}
+  h1 {{ font-size: 22px; margin-bottom: 4px; }}
+  .date {{ color: #666; font-size: 14px; margin-bottom: 24px; }}
+  h2 {{ font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; color: #444; border-bottom: 2px solid #e0e0e0; padding-bottom: 6px; margin-top: 32px; }}
+  .ticker-row {{ display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }}
+  .ticker-card {{ background: white; border-radius: 10px; padding: 14px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); min-width: 140px; flex: 1; }}
+  .ticker-symbol {{ font-weight: 700; font-size: 15px; color: #333; }}
+  .price {{ font-size: 22px; font-weight: 700; margin-top: 2px; }}
+  .change {{ font-size: 13px; font-weight: 600; margin-top: 2px; }}
+  .change.up {{ color: #12813f; }}
+  .change.down {{ color: #c4341f; }}
+  .target, .rating {{ font-size: 12px; color: #777; margin-top: 4px; }}
+  .no-data {{ color: #999; font-size: 13px; }}
+  .sparkline {{ display: block; width: 100%; height: 26px; margin-top: 6px; }}
+  .chart-links {{ display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }}
+  .chart-links a {{ font-size: 11px; font-weight: 600; color: #4f6bd9; text-decoration: none; border: 1px solid #dbe1fa; padding: 3px 8px; border-radius: 6px; }}
+  .chart-links a:hover {{ background: #edf0fd; }}
+  .news-item {{ background: white; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }}
+  .badge {{ display: inline-block; font-size: 11px; font-weight: 600; color: #4f6bd9; background: #edf0fd; padding: 2px 8px; border-radius: 12px; margin-bottom: 4px; }}
+  .item-title {{ display: block; font-size: 14.5px; font-weight: 600; color: #1a1a1a; text-decoration: none; line-height: 1.4; }}
+  .item-title:hover {{ text-decoration: underline; color: #2952d9; }}
+  .item-summary {{ font-size: 13px; color: #666; margin-top: 4px; line-height: 1.4; }}
+  .empty {{ color: #999; font-size: 13px; font-style: italic; }}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔬 Quantum Computing Weekly Digest</h1>
+  <div class="date">{today} · covering the last {LOOKBACK_DAYS} days</div>
+
+  <h2>Stock Snapshot</h2>
+  <div class="ticker-row">{ticker_cards}</div>
+
+  <h2>Investment &amp; Analyst News</h2>
+  {investment_items}
+
+  <h2>Company Announcements</h2>
+  {company_items}
+
+  <h2>Scientific Publications</h2>
+  {science_items}
+</div>
+</body>
+</html>'''
 
 
 if __name__ == "__main__":
-    digest = render_markdown(build_digest())
-    filename = f"quantum_digest_{datetime.now().strftime('%Y%m%d')}.md"
+    data = build_digest()
+    html = render_html(data)
+    filename = f"quantum_digest_{datetime.now().strftime('%Y%m%d')}.html"
     with open(filename, "w") as f:
-        f.write(digest)
+        f.write(html)
     print(f"Digest written to {filename}")
-    print(digest[:2000])
-
-# ---------------------------------------------------------------------------
-# SETUP NOTES
-# ---------------------------------------------------------------------------
-# 1. Some RSS URLs above (company blogs especially) change or get retired —
-#    verify each feed resolves before relying on it; swap in the current
-#    URL from the site's footer/RSS icon if one 404s.
-# 2. Scheduling options:
-#      - Local cron:        0 8 * * MON  python3 quantum_news_digest.py
-#      - GitHub Actions:    schedule: cron: '0 8 * * 1'  (weekly, Monday 8am)
-#      - Windows Task Scheduler: weekly trigger, run python.exe with this script
-# 3. For paywalled/ToS-restricted sites (Seeking Alpha, TipRanks, Benzinga),
-#    don't scrape directly — either use their official APIs if you have
-#    access, or keep those as a manual weekly check.
-# 4. To get notified rather than just a file: pipe the digest into an
-#    email step (smtplib) or a Slack webhook POST at the end of __main__.
