@@ -27,6 +27,8 @@ jobs:
 
       - name: Run digest script
         run: python quantum_news_digest.py
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
       - name: Upload digest as workflow artifact
         uses: actions/upload-artifact@v4
