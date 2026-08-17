@@ -48,6 +48,11 @@ EMAIL_RECIPIENT = "rehaozyukseler@gmail.com"
 EMAIL_SENDER = "Quantum Digest <onboarding@resend.dev>"
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
 
+# Analyst target price / rating come from Finnhub's free tier (not
+# Yahoo's .info, which increasingly gates this data behind rate limits
+# that look like a premium wall). Free key: finnhub.io/register
+FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY")
+
 COMPANY_FEEDS = {
     "IonQ":              "https://ionq.com/feed",
     "Rigetti":           "https://www.rigetti.com/feed",
@@ -66,10 +71,23 @@ SCIENCE_FEEDS = {
 NEWS_QUERIES = ["quantum computing stock", "quantum computing analyst rating"]
 GOOGLE_NEWS_TEMPLATE = "https://news.google.com/rss/search?q={query}+when:7d&hl=en-US&gl=US&ceid=US:en"
 
+# Skip links to sites that paywall articles after a headline/teaser —
+# no point surfacing a link you can't actually read for free.
+PAYWALLED_DOMAINS = [
+    "wsj.com", "barrons.com", "ft.com", "bloomberg.com",
+    "seekingalpha.com", "morningstar.com", "investors.com",
+    "economist.com", "businessinsider.com",
+]
+
 
 # ---------------------------------------------------------------------------
 # FETCH HELPERS
 # ---------------------------------------------------------------------------
+
+def is_paywalled(link: str) -> bool:
+    link = (link or "").lower()
+    return any(domain in link for domain in PAYWALLED_DOMAINS)
+
 
 def clean_text(s: str) -> str:
     s = unescape(s or "")
@@ -92,10 +110,13 @@ def fetch_feed(name, url, cutoff, limit=6):
         for entry in parsed.entries[:limit]:
             if not within_lookback(entry, cutoff):
                 continue
+            link = entry.get("link", "")
+            if is_paywalled(link):
+                continue
             items.append({
                 "source": name,
                 "title": clean_text(entry.get("title", "")),
-                "link": entry.get("link", ""),
+                "link": link,
                 "summary": clean_text(entry.get("summary", ""))[:220],
             })
     except Exception:
@@ -113,7 +134,7 @@ def fetch_ticker_news(ticker, cutoff, limit=5):
             content = n.get("content", n)
             title = content.get("title") or n.get("title", "")
             link = (content.get("canonicalUrl") or {}).get("url") or n.get("link", "")
-            if title and link:
+            if title and link and not is_paywalled(link):
                 items.append({"source": f"{ticker}", "title": clean_text(title), "link": link, "summary": ""})
     except Exception:
         pass
@@ -141,28 +162,64 @@ def make_sparkline_b64(closes):
         return None
 
 
-def fetch_ticker_snapshot(ticker):
-    """Price, monthly change, volume, analyst target, and sparkline — best effort."""
-    snap = {"ticker": ticker, "price": None, "change_pct": None, "volume": None,
-            "target": None, "rating": None, "sparkline_b64": None}
-    if not HAVE_YFINANCE:
-        return snap
+def fetch_analyst_data(ticker):
+    """Analyst price target and a simple rating label, via Finnhub's free tier."""
+    result = {"target": None, "rating": None}
+    if not FINNHUB_API_KEY:
+        return result
     try:
-        t = yf.Ticker(ticker)
-        hist = t.history(period="1mo")  # extra history so the sparkline shows a real trend
-        if not hist.empty:
-            closes = hist["Close"].tolist()
-            last_close = closes[-1]
-            week_ago_close = hist["Close"].iloc[-6] if len(closes) >= 6 else closes[0]
-            snap["price"] = round(float(last_close), 2)
-            snap["change_pct"] = round((last_close - week_ago_close) / week_ago_close * 100, 2)
-            snap["volume"] = int(hist["Volume"].iloc[-1])
-            snap["sparkline_b64"] = make_sparkline_b64(closes)
-        info = t.info if hasattr(t, "info") else {}
-        snap["target"] = info.get("targetMeanPrice")
-        snap["rating"] = info.get("recommendationKey")
+        pt = requests.get(
+            "https://finnhub.io/api/v1/stock/price-target",
+            params={"symbol": ticker, "token": FINNHUB_API_KEY}, timeout=10
+        ).json()
+        if pt.get("targetMean"):
+            result["target"] = pt["targetMean"]
     except Exception:
         pass
+    try:
+        rec = requests.get(
+            "https://finnhub.io/api/v1/stock/recommendation",
+            params={"symbol": ticker, "token": FINNHUB_API_KEY}, timeout=10
+        ).json()
+        if rec:
+            latest = rec[0]  # most recent period, Finnhub returns newest first
+            buy_side = latest.get("strongBuy", 0) + latest.get("buy", 0)
+            sell_side = latest.get("strongSell", 0) + latest.get("sell", 0)
+            hold = latest.get("hold", 0)
+            if buy_side > hold and buy_side > sell_side:
+                result["rating"] = "Buy"
+            elif sell_side > hold and sell_side > buy_side:
+                result["rating"] = "Sell"
+            else:
+                result["rating"] = "Hold"
+    except Exception:
+        pass
+    return result
+
+
+def fetch_ticker_snapshot(ticker):
+    """Price, monthly change, volume, sparkline (via yfinance) plus
+    analyst target/rating (via Finnhub) — best effort."""
+    snap = {"ticker": ticker, "price": None, "change_pct": None, "volume": None,
+            "target": None, "rating": None, "sparkline_b64": None}
+    if HAVE_YFINANCE:
+        try:
+            t = yf.Ticker(ticker)
+            hist = t.history(period="1mo")  # extra history so the sparkline shows a real trend
+            if not hist.empty:
+                closes = hist["Close"].tolist()
+                last_close = closes[-1]
+                week_ago_close = hist["Close"].iloc[-6] if len(closes) >= 6 else closes[0]
+                snap["price"] = round(float(last_close), 2)
+                snap["change_pct"] = round((last_close - week_ago_close) / week_ago_close * 100, 2)
+                snap["volume"] = int(hist["Volume"].iloc[-1])
+                snap["sparkline_b64"] = make_sparkline_b64(closes)
+        except Exception:
+            pass
+
+    analyst = fetch_analyst_data(ticker)
+    snap["target"] = analyst["target"]
+    snap["rating"] = analyst["rating"]
     return snap
 
 
