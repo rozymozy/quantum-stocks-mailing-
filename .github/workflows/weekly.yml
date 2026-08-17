@@ -38,6 +38,6 @@ jobs:
         run: |
           git config user.name "quantum-digest-bot"
           git config user.email "actions@github.com"
-          git add quantum_digest_*.md
+          git add quantum_digest_*.html
           git commit -m "Weekly quantum digest $(date +'%Y-%m-%d')" || echo "No changes to commit"
           git push
