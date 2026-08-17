@@ -1,3 +1,4 @@
 feedparser
 yfinance
 matplotlib
+requests

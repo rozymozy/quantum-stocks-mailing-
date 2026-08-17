@@ -15,6 +15,8 @@ import feedparser
 import re
 import io
 import base64
+import os
+import requests
 from datetime import datetime, timedelta, timezone
 from html import unescape, escape
 
@@ -38,6 +40,13 @@ except ImportError:
 
 LOOKBACK_DAYS = 7
 TICKERS = ["QUBT", "IONQ", "RGTI", "QBTS"]
+
+# Email delivery via Resend (resend.com) — free tier, no personal email
+# account needed. Sender uses Resend's built-in generic address unless
+# you verify your own domain with them later.
+EMAIL_RECIPIENT = "rehaozyukseler@gmail.com"
+EMAIL_SENDER = "Quantum Digest <onboarding@resend.dev>"
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
 
 COMPANY_FEEDS = {
     "IonQ":              "https://ionq.com/feed",
@@ -308,6 +317,33 @@ def render_html(data):
 </html>'''
 
 
+def send_email(html_body, subject):
+    if not RESEND_API_KEY:
+        print("Email not sent: RESEND_API_KEY not set in environment.")
+        return False
+    try:
+        resp = requests.post(
+            "https://api.resend.com/emails",
+            headers={"Authorization": f"Bearer {RESEND_API_KEY}", "Content-Type": "application/json"},
+            json={
+                "from": EMAIL_SENDER,
+                "to": [EMAIL_RECIPIENT],
+                "subject": subject,
+                "html": html_body,
+            },
+            timeout=20,
+        )
+        if resp.status_code in (200, 201):
+            print(f"Email sent to {EMAIL_RECIPIENT}")
+            return True
+        else:
+            print(f"Email send failed: {resp.status_code} {resp.text}")
+            return False
+    except Exception as e:
+        print(f"Email send failed: {e}")
+        return False
+
+
 if __name__ == "__main__":
     data = build_digest()
     html = render_html(data)
@@ -315,3 +351,6 @@ if __name__ == "__main__":
     with open(filename, "w") as f:
         f.write(html)
     print(f"Digest written to {filename}")
+
+    subject = f"Quantum Computing Weekly Digest — {datetime.now().strftime('%B %d, %Y')}"
+    send_email(html, subject)
