@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quantum Computing Weekly Digest — September 14, 2026</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f5f6f8; margin: 0; padding: 24px; color: #1a1a1a; }
+  .container { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .date { color: #666; font-size: 14px; margin-bottom: 24px; }
+  h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px; color: #444; border-bottom: 2px solid #e0e0e0; padding-bottom: 6px; margin-top: 32px; }
+  .ticker-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .ticker-card { background: white; border-radius: 10px; padding: 14px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); min-width: 140px; flex: 1; }
+  .ticker-symbol { font-weight: 700; font-size: 15px; color: #333; }
+  .price { font-size: 22px; font-weight: 700; margin-top: 2px; }
+  .change { font-size: 13px; font-weight: 600; margin-top: 2px; }
+  .change.up { color: #12813f; }
+  .change.down { color: #c4341f; }
+  .target, .rating { font-size: 12px; color: #777; margin-top: 4px; }
+  .no-data { color: #999; font-size: 13px; }
+  .sparkline { display: block; width: 100%; height: 26px; margin-top: 6px; }
+  .chart-links { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .chart-links a { font-size: 11px; font-weight: 600; color: #4f6bd9; text-decoration: none; border: 1px solid #dbe1fa; padding: 3px 8px; border-radius: 6px; }
+  .chart-links a:hover { background: #edf0fd; }
+  .news-item { background: white; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; color: #4f6bd9; background: #edf0fd; padding: 2px 8px; border-radius: 12px; margin-bottom: 4px; }
+  .item-title { display: block; font-size: 14.5px; font-weight: 600; color: #1a1a1a; text-decoration: none; line-height: 1.4; }
+  .item-title:hover { text-decoration: underline; color: #2952d9; }
+  .item-summary { font-size: 13px; color: #666; margin-top: 4px; line-height: 1.4; }
+  .empty { color: #999; font-size: 13px; font-style: italic; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔬 Quantum Computing Weekly Digest</h1>
+  <div class="date">September 14, 2026 · covering the last 7 days</div>
+
+  <h2>Stock Snapshot</h2>
+  <div class="ticker-row">
+    <div class="ticker-card">
+      <div class="ticker-symbol">QUBT</div>
+      <div class="price">$7.97</div>
+      <div class="change down">▼ 0.44% (7d)</div>
+      <img class="sparkline" src="data:image/png;base64,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" alt="QUBT 1-month trend">
+      
+      
+      
+      <div class="chart-links">
+        <a href="https://finance.yahoo.com/quote/QUBT" target="_blank" rel="noopener">Yahoo</a>
+        <a href="https://www.tradingview.com/symbols/QUBT/" target="_blank" rel="noopener">TradingView</a>
+        <a href="https://www.investing.com/search/?q=QUBT" target="_blank" rel="noopener">Investing.com</a>
+      </div>
+    </div>
+    <div class="ticker-card">
+      <div class="ticker-symbol">IONQ</div>
+      <div class="price">$37.51</div>
+      <div class="change down">▼ 5.10% (7d)</div>
+      <img class="sparkline" src="data:image/png;base64,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" alt="IONQ 1-month trend">
+      
+      
+      
+      <div class="chart-links">
+        <a href="https://finance.yahoo.com/quote/IONQ" target="_blank" rel="noopener">Yahoo</a>
+        <a href="https://www.tradingview.com/symbols/IONQ/" target="_blank" rel="noopener">TradingView</a>
+        <a href="https://www.investing.com/search/?q=IONQ" target="_blank" rel="noopener">Investing.com</a>
+      </div>
+    </div>
+    <div class="ticker-card">
+      <div class="ticker-symbol">RGTI</div>
+      <div class="price">$15.28</div>
+      <div class="change up">▲ 0.56% (7d)</div>
+      <img class="sparkline" src="data:image/png;base64,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" alt="RGTI 1-month trend">
+      
+      
+      
+      <div class="chart-links">
+        <a href="https://finance.yahoo.com/quote/RGTI" target="_blank" rel="noopener">Yahoo</a>
+        <a href="https://www.tradingview.com/symbols/RGTI/" target="_blank" rel="noopener">TradingView</a>
+        <a href="https://www.investing.com/search/?q=RGTI" target="_blank" rel="noopener">Investing.com</a>
+      </div>
+    </div>
+    <div class="ticker-card">
+      <div class="ticker-symbol">QBTS</div>
+      <div class="price">$16.85</div>
+      <div class="change up">▲ 1.66% (7d)</div>
+      <img class="sparkline" src="data:image/png;base64,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" alt="QBTS 1-month trend">
+      
+      
+      
+      <div class="chart-links">
+        <a href="https://finance.yahoo.com/quote/QBTS" target="_blank" rel="noopener">Yahoo</a>
+        <a href="https://www.tradingview.com/symbols/QBTS/" target="_blank" rel="noopener">TradingView</a>
+        <a href="https://www.investing.com/search/?q=QBTS" target="_blank" rel="noopener">Investing.com</a>
+      </div>
+    </div></div>
+
+  <h2>Investment &amp; Analyst News</h2>
+  
+    <div class="news-item">
+      <span class="badge">QUBT</span>
+      <a class="item-title" href="https://finance.yahoo.com/markets/stocks/articles/rising-expenses-weigh-qubts-profit-141000961.html" target="_blank" rel="noopener">Rising Expenses Weigh on QUBT&#x27;s Profit: Hold or Sell QUBT Stock Now?</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">QUBT</span>
+      <a class="item-title" href="https://investorshub.advfn.com/market-news/article/36231/quantum-computing-inc-signs-three-year-agreement-with-hamad-bin-khalifa-university" target="_blank" rel="noopener">Quantum Computing Inc. Signs Three-Year Agreement With Hamad Bin Khalifa University</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">QUBT</span>
+      <a class="item-title" href="https://finance.yahoo.com/markets/stocks/articles/rising-losses-weigh-rigettis-outlook-172400249.html" target="_blank" rel="noopener">Rising Losses Weigh on Rigetti&#x27;s Outlook: Sell or Hold RGTI Stock Now?</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">QUBT</span>
+      <a class="item-title" href="https://247wallst.com/investing/2026/09/09/quantum-stocks-fall-as-rate-hike-odds-climb-ionq-sinks-4-rigetti-and-d-wave-pull-back/" target="_blank" rel="noopener">Quantum Stocks Fall as Rate-Hike Odds Climb: IonQ Sinks 4%, Rigetti and D-Wave Pull Back</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">QUBT</span>
+      <a class="item-title" href="https://finance.yahoo.com/markets/stocks/articles/d-wave-rigetti-ionq-stocks-125904784.html" target="_blank" rel="noopener">D-Wave, Rigetti and IonQ Stocks Rally on $100 Million Quantum Boost</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">IONQ</span>
+      <a class="item-title" href="https://www.fool.com/coverage/better-buy/2026/09/12/bigbear-ai-vs-ionq-weighing-whether-to-invest-in-the-artificial-intelligence-company-or-the-quantum-computing-giant/" target="_blank" rel="noopener">BigBear.ai vs. IonQ: Weighing Whether to Invest in the Artificial Intelligence Company or the Quantum Computing Giant</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">IONQ</span>
+      <a class="item-title" href="https://www.fool.com/coverage/better-buy/2026/09/12/cerebras-systems-vs-ionq-which-technology-stock-is-a-better-buy-in-2026/" target="_blank" rel="noopener">Cerebras Systems vs. IonQ: Which Tech Stock Is a Better Buy in 2026?</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">IONQ</span>
+      <a class="item-title" href="https://www.fool.com/investing/2026/09/12/prediction-d-wave-quantum-s-revenue-triples-before-2030/" target="_blank" rel="noopener">Prediction: D-Wave Quantum&#x27;s Revenue Triples Before 2030</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">RGTI</span>
+      <a class="item-title" href="https://www.barchart.com/story/news/4571377/rigetti-and-d-wave-just-got-100-million-each-1-quantum-stock-has-more-upside-from-here" target="_blank" rel="noopener">Rigetti and D-Wave Just Got $100 Million Each. 1 Quantum Stock Has More Upside From Here.</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">RGTI</span>
+      <a class="item-title" href="https://www.fool.com/investing/2026/09/11/not-ionq-not-rigetti-computing-this-quantum-comput/" target="_blank" rel="noopener">Not IonQ, Not Rigetti Computing. This Quantum Computing Stock Could Be September&#x27;s Biggest Winner.</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">RGTI</span>
+      <a class="item-title" href="https://finance.yahoo.com/markets/stocks/articles/zacks-analyst-blog-highlights-d-090200430.html" target="_blank" rel="noopener">The Zacks Analyst Blog Highlights D-Wave Quantum, Rigetti, IBM, Alphabet and Amazon</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">RGTI</span>
+      <a class="item-title" href="https://www.fool.com/investing/2026/09/10/prediction-rigetti-s-revenue-passes-usd50-million-a-year-before-2029/" target="_blank" rel="noopener">Prediction: Rigetti&#x27;s Revenue Passes $50 Million a Year Before 2029</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">RGTI</span>
+      <a class="item-title" href="https://www.fool.com/coverage/filings/2026/09/10/rigetti-computing-ceo-sells-120-000-shares-for-usd1-9-million-after-signing-an-agreement-with-the-u-s-government/" target="_blank" rel="noopener">Rigetti Computing CEO Sells 120,000 Shares for $1.9 Million After Signing an Agreement with the U.S. Government</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">QBTS</span>
+      <a class="item-title" href="https://www.fool.com/coverage/better-buy/2026/09/12/bigbearai-vs-d-wave-quantum-which-technology-stock-is-a-better-buy-in-2026/" target="_blank" rel="noopener">BigBear.ai vs. D-Wave Quantum: Which Technology Stock Is a Better Buy in 2026?</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">QBTS</span>
+      <a class="item-title" href="https://www.fool.com/investing/2026/09/10/d-wave-rigetti-and-quantinuum-just-got-300-million/" target="_blank" rel="noopener">D-Wave, Rigetti, and Quantinuum Just Got $300 Million From Washington. Here&#x27;s What That Changes for Investors.</a>
+      
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing stock</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxNbklsdmc3LXh6bDdHQ3BvZ2I3VUFONnNIMUE1SVUyOTZ1OGhYVVZBeUNUT3Y3dHhCZV9wU2xRSEVCQ19FMTUzOEl5S3lnYXpjUlpSVnJId0N3SDlXdF9BcEVDSHhjREdISDUzRGFXTnNKZTRfa3FtaDV5QXFYNzdjLVo0YkY4WEE5VnhPZEZ3ZzE1Tk92Yzh3aVNrMEgxVFQwVnpqdVdyVmtGVVpfQmZ1VVlRMUN6SlRB?oc=5" target="_blank" rel="noopener">9 Best Quantum Computing Stocks for 2026 and How to Invest - The Motley Fool</a>
+      <div class="item-summary">9 Best Quantum Computing Stocks for 2026 and How to Invest The Motley Fool</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing stock</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQOUxEUGM0WDlxNEc1N09EbU9zbkRSSFR2Vlh5T1VGQmNKdnJnamFuV3A5Rm96anVFRE0yTFNlc0xrcmZBYTlDU1B2UnhHT2NwV1hGNlNYS211a0dOd3BvUGdXT043U3lCZjRkOTJJeElad01CN3BEZmg2cXBqOXNWQTJOa1FoMS1GRTNEeDI3UGJwTlk?oc=5" target="_blank" rel="noopener">If I Could Only Buy 1 Quantum Computing Stock, This Would Be It - Yahoo Finance</a>
+      <div class="item-summary">If I Could Only Buy 1 Quantum Computing Stock, This Would Be It Yahoo Finance</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing stock</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMiugFBVV95cUxOOWpqdkNTUmtJcXpnZW16akZhczVRYXpqaEFsVDU2M2ZqY2FxU281cC1EOC1Jc2RMQ0g3SEhlcWRGaFNCNnhTcFpMV0M5UGtJY1F0V2Q0UEZjTnl4VlZ2SUV2bVRsd0FvMnFTblJnQTBKOHpGS0xPR2hUYVY1RVYtb0VYOEtad0ZMM0pWcnZiV1VCR0lqbkZ4ZkdKNmZocDlaWFZJMjBhekZ1UUdvb0d1WVBTVTJscm5XTFE?oc=5" target="_blank" rel="noopener">Why quantum computing stocks are soaring today while the rest of the market falls - Fast Company</a>
+      <div class="item-summary">Why quantum computing stocks are soaring today while the rest of the market falls Fast Company</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing stock</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxNQ05HUU02VWJXbkhyX29vMnNrOGEzZEpfSllfMHU4QXlfVlBZS0JlUWpKZi1NTkFhbklzSnVPTXRVYU9Yc3VaS3RIM1JxeXdwMDlQenF0U3AxWUh0YUk3cENlNmNpc1M0QlBQeU9hODhxWlVldnpob3JDYnNmQTZGeEpHOWIxY0N0LUFja1Y1WWt5c3pEaHhqUjgwX2tTbm9zbXlZekVrSzBaeGdkMWFGM0R3TVRrWTNUT1J1T3g1c1M0cEdPZ21TZkNuVVVmX0FFVktuOU0zc1d0dE0?oc=5" target="_blank" rel="noopener">These 3 Quantum Stocks Are on the Rise as the US Government Takes Minority Stakes - Investopedia</a>
+      <div class="item-summary">These 3 Quantum Stocks Are on the Rise as the US Government Takes Minority Stakes Investopedia</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing stock</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxPRFhHZWM5c2RUcXlkUkNYcHhKVVhoWXBHZUdoXzh2eWxtYUVfaFJSdThWMlZfWWtTeWVfaE1pNVEwaDIyT0txTVNGd2JZaU5TXy1OcUJTcHg2bTJGYWVnT0MyNUFnS1FHcnpmRGRNekNuTnhEYjFNaW05aUtOWUpkZ2kzWUx3b24zanRwTnFrbjdBMHVkWnRyQlZhN1dzRGRxZUxYVG1SdHRlVzRWc1FHeG5Fa0J4T29Yc2dn?oc=5" target="_blank" rel="noopener">RGTI Vs QBTS Vs INFQ Vs IONQ: Which Quantum Computing Stock Is Retail Most Bullish On? - Stocktwits</a>
+      <div class="item-summary">RGTI Vs QBTS Vs INFQ Vs IONQ: Which Quantum Computing Stock Is Retail Most Bullish On? Stocktwits</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing stock</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMifkFVX3lxTE1NQ2ZMdnFNR0VBZ0JybzJGV2x4R09zdDViR3k2YkRWVDNSQlJyOXNhRmhXV2RlVnVjc2ltVFRLc0pLR2hmM1huUEZUVzNiWXdlcFpLQl94MDBpUmtuOWNBUC1sMDh1Z1hUYXY0U3pRYk5vX3h3aS1Gai1tZU9RQQ?oc=5" target="_blank" rel="noopener">Best Quantum Computing Stocks to Buy for September 2026 - Zacks Investment Research</a>
+      <div class="item-summary">Best Quantum Computing Stocks to Buy for September 2026 Zacks Investment Research</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing analyst rating</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxPSEQ3Y0lRNDZVQ2dwelJ0YWRUSWtGVlFvUWFlY3o0SzZST2Nfd0FMSU54Q2NLbUtTY1RSVlNsQzNsRFJnem1XSTZaSXNkZUVRUExqSkhFbU5jV0FqTGdMZ3JHNmlEM2lXc1VuajJHMmtmb1dRa2dNY2dMV2VVYjRPamtsU3g0eGdDbDFOZjZveXhPZ2RvLWV0c0d1UEdCSU9kMG5hdWxWU29XQ3RwYzVkQndIOXczVmxFeW5RVnNabUhoQnA4WnR4ZVhCbmRjbjVWNGVpSHk2SDc?oc=5" target="_blank" rel="noopener">Squarepoint Ops LLC Has $3.91 Million Stock Holdings in Quantum Computing Inc. $QUBT - MarketBeat</a>
+      <div class="item-summary">Squarepoint Ops LLC Has $3.91 Million Stock Holdings in Quantum Computing Inc. $QUBT MarketBeat</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing analyst rating</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxOUkgyUlg5cDVhLXA3aHd2NUUwYWljSVdPOXRvd1ktV1dvMlBzVE5kX0NhOC1oVG1DQy1HOWNpSTdBZUNvbVdTdVBRVXlNNmswN3A0bWR6cXloZTB5Tl82bDE2bDk1dkdIckx2YXpwTjduNjVTVFJsME9vQkpoc1hWWU94b0VFX3ZKa2hLMUw5cVZQRERGVGZYV0M2bWJhN2MzTDd6QW15aVUwVWJ0d3dsRU1xa0JXVVlpUlR0S3NsTTRXQmc?oc=5" target="_blank" rel="noopener">Pasqal stock initiated with buy rating at Roth/MKM on quantum tech - Investing.com</a>
+      <div class="item-summary">Pasqal stock initiated with buy rating at Roth/MKM on quantum tech Investing.com</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing analyst rating</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMivAFBVV95cUxOcmhnUlpqLXc2SWRVdlE1ekFDYzhDS0pPemJhT3hRRTVTYjNsSHcxMnRHSVdBVm93ejVZR3ZlYXA3VEtuVzNSZGpWMFBoRG1EQ3NWWGVKSV9BOFAzdUVEbG90Q3pKbHZUNHI4STNUZWk5dzNjRFVTbE1yN0JfVkpEWEZONXFNS0NKWlhTZDFnYWhKazhRaEdjSnhnOUtORm53enlENTFGSkdBNUdNS1NOQzhUdlNKYUsxRzhaMw?oc=5" target="_blank" rel="noopener">IonQ’s CEO Says ‘Q-Day’ Hits in 2028. The Stock Says Investors Stopped Listening - 247wallst.com</a>
+      <div class="item-summary">IonQ’s CEO Says ‘Q-Day’ Hits in 2028. The Stock Says Investors Stopped Listening 247wallst.com</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">quantum computing analyst rating</span>
+      <a class="item-title" href="https://news.google.com/rss/articles/CBMilgFBVV95cUxOejhJUlFROWZwUDloampuTVBaUHZtSkEyVl9DY3RUTGRIMktObWo3dFZmWUdzajdNLXVLRnBYbFFVM05FbWdjeVVFY3BnSHFtekhkUXNxVUxPM3NsTlJFaWg5ZTIyRnpGZUZHcHlPQ18wbmI5eWtBNmpnWVlsblFxRG53VWd6VDQtd1U0ZG5KdmF3QUxlN3c?oc=5" target="_blank" rel="noopener">Top 5 Stocks Poised to Profit From the CHIPS Quantum Incentive Wave - Yahoo Finance</a>
+      <div class="item-summary">Top 5 Stocks Poised to Profit From the CHIPS Quantum Incentive Wave Yahoo Finance</div>
+    </div>
+
+  <h2>Company Announcements</h2>
+  <p class="empty">No new company announcements this week.</p>
+
+  <h2>Scientific Publications</h2>
+  
+    <div class="news-item">
+      <span class="badge">arXiv quant-ph</span>
+      <a class="item-title" href="https://arxiv.org/abs/2609.12043" target="_blank" rel="noopener">Log-depth entanglement transition in hypercube Gaussian boson sampling</a>
+      <div class="item-summary">arXiv:2609.12043v1 Announce Type: new Abstract: We study an entanglement transition at logarithmic depth in random hypercube linear optical networks. Starting from an initial Gaussian state with all modes squeezed, we pr</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">arXiv quant-ph</span>
+      <a class="item-title" href="https://arxiv.org/abs/2609.12066" target="_blank" rel="noopener">Dephasing-driven suppression of superradiance and metastable dynamics in the anisotropic open Rabi model</a>
+      <div class="item-summary">arXiv:2609.12066v1 Announce Type: new Abstract: Finite-component light-matter systems realize dissipative phase transitions in a single controllable atom-cavity setup, but how atomic dephasing - ubiquitous in real cavity</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">arXiv quant-ph</span>
+      <a class="item-title" href="https://arxiv.org/abs/2609.12073" target="_blank" rel="noopener">Modeling Quantum Error Detection with Transition Matrices</a>
+      <div class="item-summary">arXiv:2609.12073v1 Announce Type: new Abstract: We construct an explicit transition matrix that exactly describes code-adapted basis-population dynamics of stabilizer codes under circuit-level stochastic Pauli noise. The</div>
+    </div>
+    <div class="news-item">
+      <span class="badge">arXiv quant-ph</span>
+      <a class="item-title" href="https://arxiv.org/abs/2609.12124" target="_blank" rel="noopener">Evidencing Macroscopic Quantum Coherence using Confined Uniform Magnetic Field</a>
+      <div class="item-summary">arXiv:2609.12124v1 Announce Type: new Abstract: A previously unexplored scheme is devised for creating and certifying coherent quantum superposition of distinctly separated states of a spin-tagged massive object passing </div>
+    </div>
+</div>
+</body>
+</html>
